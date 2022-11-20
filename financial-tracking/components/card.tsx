@@ -1,14 +1,22 @@
 type Props = {
-  title: string;
+  title?: string;
+  width?: CardWidth;
   children: JSX.Element;
 };
 
-export default function Card({ title, children }: Props) {
+export enum CardWidth {
+  Full = "w-full",
+  Half = "w-1/2",
+  Three = "w-1/3",
+}
+
+export default function Card({ title, width, children }: Props) {
+  let cardWidth = width ?? "";
   return (
-    <div className="w-1/2 border rounded-md">
+    <div className={cardWidth + " border rounded-md m-2"}>
       <div className="p-2">
         {title ?? "Untitled"}
-        {children}
+        <div className="h-80">{children}</div>
       </div>
     </div>
   );
