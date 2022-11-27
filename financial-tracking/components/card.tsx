@@ -11,13 +11,15 @@ export enum CardWidth {
 }
 
 export default function Card({ title, width, children }: Props) {
-  let cardWidth = width ?? "";
+  let cardWidth = width ?? CardWidth.Full;
   return (
-    <div className={cardWidth + " border rounded-md m-2"}>
-      <div className="p-2">
-        {title ?? "Untitled"}
-        <div className="h-80">{children}</div>
+    <>
+      <div className={cardWidth + " border rounded-md m-2"}>
+        <div className="p-2">
+          {title ?? "Untitled"}
+          <div className="h-80">{children}</div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

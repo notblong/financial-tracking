@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { Doughnut, Line, Pie } from "react-chartjs-2";
 import Card, { CardWidth } from "../../components/card";
 import styles from "../../styles/Home.module.css";
@@ -61,6 +62,11 @@ export default function Index() {
 
   return (
     <>
+      <Head>
+        <title>Dashboard</title>
+        <meta name="description" content="Dashboard" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className={styles.container}>
         <h1>Dashboard</h1>
         {dashboardCards.map((row, index) => (
