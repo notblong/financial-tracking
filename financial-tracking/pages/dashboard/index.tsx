@@ -164,69 +164,68 @@ export const dataDoughnut = {
   ],
 };
 
-type Person = {
-  firstName: string
-  lastName: string
-  age: number
-  visits: number
-  status: string
-  progress: number
+type Transaction = {
+  date: Date,
+  name: string,
+  amount: number,
+  category?: string,
+  note?: string,
+  isVerified: boolean,
 }
 
-const columnHelper = createColumnHelper<Person>()
+const columnHelper = createColumnHelper<Transaction>()
 const columns = [
-  columnHelper.accessor('firstName', {
-    cell: info => info.getValue(),
-    footer: info => info.column.id,
-  }),
-  columnHelper.accessor(row => row.lastName, {
-    id: 'lastName',
+  columnHelper.accessor(row => row.name, {
+    id: 'name',
     cell: info => <i>{info.getValue()}</i>,
-    header: () => <span>Last Name</span>,
-    footer: info => info.column.id,
+    header: () => <span>Name</span>,
   }),
-  columnHelper.accessor('age', {
-    header: () => 'Age',
-    cell: info => info.renderValue(),
-    footer: info => info.column.id,
+  columnHelper.accessor(row => row.amount, {
+    id: 'amount',
+    header: () => 'Amount',
+    cell: info =>
+      <span className="justify-items-end">
+        {info.getValue().toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+      </span>
   }),
-  columnHelper.accessor('visits', {
-    header: () => <span>Visits</span>,
-    footer: info => info.column.id,
+  columnHelper.accessor(r => r.category, {
+    id: 'category',
+    header: () => <span>Category</span>,
   }),
-  columnHelper.accessor('status', {
-    header: 'Status',
-    footer: info => info.column.id,
+  columnHelper.accessor(r => r.date, {
+    header: 'Date',
+    cell: info => <span>{info.getValue().toDateString()}</span>
   }),
-  columnHelper.accessor('progress', {
-    header: 'Profile Progress',
-    footer: info => info.column.id,
+  columnHelper.accessor(r => r.isVerified, {
+    id: 'isVerified',
+    header: 'Verified',
+    cell: info => <span>{info.getValue() === true ? '✅': '❓'}</span>
   }),
 ]
 
-const defaultData: Person[] = [
+const defaultData: Transaction[] = [
   {
-    firstName: 'tanner',
-    lastName: 'linsley',
-    age: 24,
-    visits: 100,
-    status: 'In Relationship',
-    progress: 50,
+    name: 'Tanner',
+    amount: 100,
+    date: new Date(),
+    category: 'shopping',
+    isVerified: true,
+    note: 'buy some stuff for wfh'
   },
   {
-    firstName: 'tandy',
-    lastName: 'miller',
-    age: 40,
-    visits: 40,
-    status: 'Single',
-    progress: 80,
+    name: 'Rachel',
+    amount: 20,
+    date: new Date(),
+    category: 'bill',
+    isVerified: false,
+    note: 'pay bill'
   },
   {
-    firstName: 'joe',
-    lastName: 'dirte',
-    age: 45,
-    visits: 20,
-    status: 'Complicated',
-    progress: 10,
+    name: 'Joe',
+    amount: 20000,
+    date: new Date(),
+    category: 'food',
+    isVerified: true,
+    note: "Joe doesn't share food!"
   },
 ]
