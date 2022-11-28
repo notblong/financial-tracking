@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { Doughnut, Line, Pie } from "react-chartjs-2";
 import Card, { CardWidth } from "../../components/card";
 import styles from "../../styles/Home.module.css";
@@ -29,7 +30,7 @@ export class DashboardCard<T> implements IDashboardCard<T> {
 }
 
 export default function Index() {
-  const dashboardCards: DashboardCard<ChartType>[][] = [
+  const dashboardCards: DashboardCard<ChartType | any>[][] = [
     [
       new DashboardCard<ChartType.Line>({
         title: "My Daily income",
@@ -58,6 +59,14 @@ export default function Index() {
         data: dataDoughnut,
       }),
     ],
+    [
+      new DashboardCard<null>({
+        title: "Transactions",
+        type: null,
+        data: "table goes here.",
+        width: CardWidth.Full,
+      }),
+    ],
   ];
 
   return (
@@ -77,6 +86,7 @@ export default function Index() {
                   {card.type == ChartType.Line && <Line data={card.data} />}
                   {card.type == ChartType.Pie && <Pie data={card.data} />}
                   {card.type == ChartType.Doughnut && <Doughnut data={card.data} />}
+                  {card.type == null && <Link href='https://bvaughn.github.io/react-virtualized/#/components/List'> <i>Table lib</i></Link>}
                 </>
               </Card>
             ))}

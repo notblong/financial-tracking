@@ -26,7 +26,7 @@ export default function NavBar() {
                 alt="play-logo"
                 className={`cursor-pointer duration-500 ${open && 'rotate-[360deg]'}`}
               />
-              <h1 className={`text-white origin-left font-medium text-xl duration-300 ${!open && 'scale-0'}`}>MoneyGo</h1>
+              <h1 className={`text-white origin-left font-medium text-xl duration-300 ${!open && 'hidden'}`}>MoneyGo</h1>
             </div>
           </Link>
           <ul className="pt-6 menu">
