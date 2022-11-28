@@ -1,8 +1,13 @@
+import { createColumnHelper } from "@tanstack/react-table";
 import Head from "next/head";
-import Link from "next/link";
 import { Doughnut, Line, Pie } from "react-chartjs-2";
 import Card, { CardWidth } from "../../components/card";
+import Table from "../../components/table";
 import styles from "../../styles/Home.module.css";
+
+export enum CardType {
+  Table = "table",
+}
 
 export enum ChartType {
   Line = "line",
@@ -30,16 +35,14 @@ export class DashboardCard<T> implements IDashboardCard<T> {
 }
 
 export default function Index() {
-  const dashboardCards: DashboardCard<ChartType | any>[][] = [
+  const dashboardCards: DashboardCard<ChartType | CardType>[][] = [
     [
       new DashboardCard<ChartType.Line>({
         title: "My Daily income",
         type: ChartType.Line,
         data: dataLine,
-        width: CardWidth.Full,
+        width: CardWidth.Three,
       }),
-    ],
-    [
       new DashboardCard<ChartType.Pie>({
         title: "Overall outcome",
         type: ChartType.Pie,
@@ -52,17 +55,11 @@ export default function Index() {
         width: CardWidth.Three,
         data: dataDoughnut,
       }),
-      new DashboardCard<ChartType.Doughnut>({
-        title: "Outcome categories",
-        type: ChartType.Doughnut,
-        width: CardWidth.Three,
-        data: dataDoughnut,
-      }),
     ],
     [
-      new DashboardCard<null>({
+      new DashboardCard<CardType.Table>({
         title: "Transactions",
-        type: null,
+        type: CardType.Table,
         data: "table goes here.",
         width: CardWidth.Full,
       }),
@@ -86,7 +83,7 @@ export default function Index() {
                   {card.type == ChartType.Line && <Line data={card.data} />}
                   {card.type == ChartType.Pie && <Pie data={card.data} />}
                   {card.type == ChartType.Doughnut && <Doughnut data={card.data} />}
-                  {card.type == null && <Link href='https://bvaughn.github.io/react-virtualized/#/components/List'> <i>Table lib</i></Link>}
+                  {card.type == CardType.Table && <Table rows={defaultData} columns={columns} />}
                 </>
               </Card>
             ))}
@@ -166,3 +163,70 @@ export const dataDoughnut = {
     },
   ],
 };
+
+type Person = {
+  firstName: string
+  lastName: string
+  age: number
+  visits: number
+  status: string
+  progress: number
+}
+
+const columnHelper = createColumnHelper<Person>()
+const columns = [
+  columnHelper.accessor('firstName', {
+    cell: info => info.getValue(),
+    footer: info => info.column.id,
+  }),
+  columnHelper.accessor(row => row.lastName, {
+    id: 'lastName',
+    cell: info => <i>{info.getValue()}</i>,
+    header: () => <span>Last Name</span>,
+    footer: info => info.column.id,
+  }),
+  columnHelper.accessor('age', {
+    header: () => 'Age',
+    cell: info => info.renderValue(),
+    footer: info => info.column.id,
+  }),
+  columnHelper.accessor('visits', {
+    header: () => <span>Visits</span>,
+    footer: info => info.column.id,
+  }),
+  columnHelper.accessor('status', {
+    header: 'Status',
+    footer: info => info.column.id,
+  }),
+  columnHelper.accessor('progress', {
+    header: 'Profile Progress',
+    footer: info => info.column.id,
+  }),
+]
+
+const defaultData: Person[] = [
+  {
+    firstName: 'tanner',
+    lastName: 'linsley',
+    age: 24,
+    visits: 100,
+    status: 'In Relationship',
+    progress: 50,
+  },
+  {
+    firstName: 'tandy',
+    lastName: 'miller',
+    age: 40,
+    visits: 40,
+    status: 'Single',
+    progress: 80,
+  },
+  {
+    firstName: 'joe',
+    lastName: 'dirte',
+    age: 45,
+    visits: 20,
+    status: 'Complicated',
+    progress: 10,
+  },
+]

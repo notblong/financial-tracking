@@ -1,3 +1,4 @@
+import Header from "./header";
 import NavBar from "./nav-bar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -5,7 +6,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <>
       <div className="flex">
         <NavBar></NavBar>
-        <section className="flex-1">{children}</section>
+        <section className="flex-1">
+        <Header />
+          {children}
+        </section>
       </div>
     </>
   );
