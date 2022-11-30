@@ -11,9 +11,9 @@ export default function ThemeButton() {
   return (
     <>
       <button onClick={toggleTheme} className={`bg-gray-100 hover:bg-gray-200 p-2 border border-transparent rounded-full text-black`}>
-        {theme == 'light' && '⽇🌞'}
-        {theme == 'dark' && '⽉🌚'}
-        {(theme != 'light' && theme != 'dark') && '⽉🌓⽇'}
+        {theme == 'light' && '🌞'}
+        {theme == 'dark' && '🌚'}
+        {(theme != 'light' && theme != 'dark') && '🌓'}
       </button>
     </>
   )
