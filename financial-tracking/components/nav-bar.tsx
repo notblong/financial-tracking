@@ -11,7 +11,7 @@ export default function NavBar() {
 
   return (
     <>
-      <div className="navbar-play-contain">
+      <div className="navbar-play-contain self-start sticky top-0">
         <div className={`${open ? 'w-64' : 'w-20'} duration-500 h-screen p-5 pt-8 bg-slate-900 relative md:w-30`}>
           <Image
             src={Collapse}

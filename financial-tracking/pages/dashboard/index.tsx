@@ -208,13 +208,13 @@ export const dataBar1 = {
       label: 'Income',
       data: ['January', 'February', 'March', 'April', 'May', 'June', 'July']
         .map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      backgroundColor: 'rgba(53, 162, 235, 0.5)',
     },
     {
       label: 'Outcome',
       data: ['January', 'February', 'March', 'April', 'May', 'June', 'July']
         .map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      backgroundColor: 'rgba(255, 99, 132, 0.5)',
     },
   ],
 };
