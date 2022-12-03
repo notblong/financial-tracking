@@ -7,7 +7,8 @@ type Props = {
 export enum CardWidth {
   Full = "w-full",
   Half = "w-1/2",
-  Three = "w-1/3",
+  TwoThirds = "w-2/3",
+  OneThird = "w-1/3",
 }
 
 export default function Card({ title, width, children }: Props) {

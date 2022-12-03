@@ -1,9 +1,10 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import Head from "next/head";
-import { Doughnut, Line, Pie } from "react-chartjs-2";
+import { Bar, Doughnut, Line, Pie } from "react-chartjs-2";
 import Card, { CardWidth } from "../../components/card";
 import Table from "../../components/table";
 import styles from "../../styles/Home.module.css";
+import { faker } from '@faker-js/faker';
 
 export enum CardType {
   Table = "table",
@@ -37,22 +38,58 @@ export class DashboardCard<T> implements IDashboardCard<T> {
 export default function Index() {
   const dashboardCards: DashboardCard<ChartType | CardType>[][] = [
     [
-      new DashboardCard<ChartType.Line>({
-        title: "My Daily income",
-        type: ChartType.Line,
-        data: dataLine,
-        width: CardWidth.Three,
-      }),
       new DashboardCard<ChartType.Pie>({
         title: "Overall outcome",
         type: ChartType.Pie,
-        width: CardWidth.Three,
+        width: CardWidth.OneThird,
         data: dataPie,
+      }),
+      new DashboardCard<ChartType.Bar>({
+        title: "Spending",
+        type: ChartType.Bar,
+        width: CardWidth.TwoThirds,
+        data: {
+          data: dataBar2,
+          option: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: 'top' as const,
+              },
+              title: {
+                display: true,
+                text: 'Chart.js Bar Chart',
+              },
+            },
+          }
+        },
+      }),
+    ],
+    [
+      new DashboardCard<ChartType.Bar>({
+        title: "Overall income & outcome",
+        type: ChartType.Bar,
+        width: CardWidth.TwoThirds,
+        data: {
+          data: dataBar1,
+          option: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: 'top' as const,
+              },
+              title: {
+                display: true,
+                text: 'Chart.js Bar Chart',
+              },
+            },
+          }
+        },
       }),
       new DashboardCard<ChartType.Doughnut>({
         title: "Outcome categories",
         type: ChartType.Doughnut,
-        width: CardWidth.Three,
+        width: CardWidth.OneThird,
         data: dataDoughnut,
       }),
     ],
@@ -74,7 +111,6 @@ export default function Index() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.container}>
-        <h1>Dashboard</h1>
         {dashboardCards.map((row, index) => (
           <div className="flex" key={index}>
             {row.map((card, index) => (
@@ -83,6 +119,7 @@ export default function Index() {
                   {card.type == ChartType.Line && <Line data={card.data} />}
                   {card.type == ChartType.Pie && <Pie data={card.data} />}
                   {card.type == ChartType.Doughnut && <Doughnut data={card.data} />}
+                  {card.type == ChartType.Bar && <Bar options={card.data.options} data={card.data.data} />}
                   {card.type == CardType.Table && <Table rows={defaultData} columns={columns} />}
                 </>
               </Card>
@@ -160,6 +197,42 @@ export const dataDoughnut = {
         "rgba(255, 159, 64, 1)",
       ],
       borderWidth: 1,
+    },
+  ],
+};
+
+export const dataBar1 = {
+  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  datasets: [
+    {
+      label: 'Income',
+      data: ['January', 'February', 'March', 'April', 'May', 'June', 'July']
+        .map(() => faker.datatype.number({ min: 0, max: 1000 })),
+      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+    },
+    {
+      label: 'Outcome',
+      data: ['January', 'February', 'March', 'April', 'May', 'June', 'July']
+        .map(() => faker.datatype.number({ min: 0, max: 1000 })),
+      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+    },
+  ],
+};
+
+export const dataBar2 = {
+  labels: ['Food', 'Shopping', 'Coffee', 'Vehicle', 'Grocery'],
+  datasets: [
+    {
+      label: 'Last month',
+      data: ['Food', 'Shopping', 'Coffee', 'Vehicle', 'Grocery']
+        .map(() => faker.datatype.number({ min: 0, max: 1000 })),
+      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+    },
+    {
+      label: 'This month',
+      data: ['Food', 'Shopping', 'Coffee', 'Vehicle', 'Grocery']
+        .map(() => faker.datatype.number({ min: 0, max: 1000 })),
+      backgroundColor: 'rgba(53, 162, 235)',
     },
   ],
 };
